@@ -1,0 +1,13 @@
+﻿@using Blogifier.Core.Data.Models
+@model BlogPostsModel
+
+<div ui-view flex style="width: 100%;" layout="column"></div>
+<div id="load-progress" layout="row" layout-align="center center" style="position: absolute; width: 100%; height: 100%; z-index: 9999; top: 0; left: 0; pointer-events: none;">
+    <md-progress-linear class="load-progress" md-mode="indeterminate" flex="50"></md-progress-linear>
+</div>
+<div class="sliding-menu" ng-cloak style="position: fixed; right: 20px; bottom: 20px;">
+    <md-button ng-click="scrollToTop()" class="md-fab md-primary md-hue-2" aria-label="Top" ng-show="scrollY > 20">
+        <md-tooltip md-direction="top">Scroll To Top</md-tooltip>
+        <md-icon>vertical_align_top</md-icon>
+    </md-button>
+</div>

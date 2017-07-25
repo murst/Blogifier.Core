@@ -1,0 +1,7 @@
+﻿<div class="post-item" layout="row" layout-align="start stretch" ui-sref="post({ slug: postListItemCtrl.post.slug })">
+    <div class="post-item-image" style="background-image: url('{{postListItemCtrl.post.image}}')"></div>
+    <div class="post-item-text">
+        <h1>{{postListItemCtrl.post.title}}</h1>
+        <p ng-bind-html="postListItemCtrl.post.content | unsafe">{{postListItemCtrl.post.content}}</p>
+    </div>
+</div>

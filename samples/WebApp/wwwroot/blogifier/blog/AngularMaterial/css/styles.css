@@ -1,0 +1,191 @@
+﻿body, html {
+    min-height: 100%;
+    min-width: 100%;
+}
+
+.blog-wrapper {
+    min-height: 100%;
+    width: 100%;
+}
+
+.load-progress {
+    margin: 5em 0;
+}
+
+.content-wrapper {
+    max-width: 1200px; 
+    margin: 0 auto; 
+    position: relative;
+}
+
+[ui-view].ng-enter, [ui-view].ng-leave {
+    position: absolute;
+    left: 0;
+    right: 0;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+}
+
+[ui-view].ng-enter {
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+}
+
+[ui-view].ng-leave {
+    -webkit-animation-name: fadeOut;
+    animation-name: fadeOut;
+}
+
+.menu-gradient {
+    background-color: #106CC8;
+    background: -webkit-linear-gradient(#185694, #106cc8);
+    background: linear-gradient(#185694, #106cc8);
+    border-bottom: 1px solid #267ED5;
+    color: white;
+}
+
+.header-toolbar {
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+    .header-toolbar .header-toolbar-title {
+        color: white;
+    }
+
+.nav-menu {
+    -webkit-flex-shrink: 0;
+    flex-shrink: 0;
+    z-index: 60;
+}
+    .nav-menu header {
+        cursor: pointer;
+        padding: 32px 16px;
+    }
+
+        .nav-menu header img {
+            width: 100%;
+            border: none;
+        }
+
+        .nav-menu header h1 {
+            color: white;
+            font-size: 1.5em;
+            display: block;
+            font-weight: bold;
+            text-align: center;
+            letter-spacing: 0.1em;
+        }
+
+    .nav-menu md-list menu-toggle .menu-toggle-header, .nav-menu md-list .md-subheader {
+        background-color: transparent;
+        color: rgba(255, 255, 255, 0.54);
+        font-weight: bold;
+        letter-spacing: 0.1em;
+    }
+
+    .nav-menu md-list menu-toggle .md-toggle-icon {
+        display: block;
+        margin-left: auto;
+        speak: none;
+        vertical-align: middle;
+        transform: rotate(180deg);
+        transition: transform 0.3s ease-in-out;
+    }
+
+        .nav-menu md-list menu-toggle .md-toggle-icon.toggled {
+            transform: rotate(0deg);
+        }
+
+    .nav-menu md-list .menu-toggle-list {
+        overflow: hidden;
+        position: relative;
+        z-index: 1;
+        height: 0;
+    }
+
+    .nav-menu md-list md-icon {
+        color: white;
+    }
+
+.featured-post-item {
+    transition: all 0.5s ease-in-out;
+    cursor: pointer;
+    position: relative;
+    background-position: center;
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+    height: 300px;
+    padding: 0 1em;
+    margin: 1em;
+}
+
+    .featured-post-item:hover {
+        background-size: auto 110%;
+    }
+
+    .featured-post-item h1 {
+        background-color: rgba(0, 0, 0, 0.75);
+        margin: 0;
+        padding: 0.5em;
+        color: white;
+        font-size: 1.5em;
+    }
+
+.post-item {
+    cursor: pointer;
+    height: 100px;
+    margin: 1em;
+    overflow-y: hidden;
+}
+
+    .post-item .post-item-image {
+        width: 200px;
+        min-width: 200px;
+        transition: all 0.5s ease-in-out;
+        background-position: center;
+        background-size: auto 100%;
+        background-repeat: no-repeat;
+    }
+
+    .post-item:hover .post-item-image {
+        background-size: auto 110%;
+    }
+
+    .post-item:hover .post-item-text h1 {
+        text-decoration: underline;
+    }
+
+    .post-item .post-item-text {
+        padding-left: 1em;
+    }
+
+        .post-item .post-item-text h1 {
+            margin: 0;
+            font-size: 1.2em;
+        }
+
+        .post-item .post-item-text p {
+            margin: 1em 0 0 0;
+        }
+
+.docs-menu .menu-toggle-list a.md-button {
+    display: block;
+    padding: 0 16px 0 32px;
+    text-transform: none;
+    text-rendering: optimizeLegibility;
+    font-weight: 500;
+}
+
+.parent-list-item:last-child {
+    margin-bottom: 20px;
+    /* Prevent the hidden License link from causing a double bottom-border */
+    border-bottom: none;
+}
+
+#disqus_thread {
+    max-width: 800px;
+    margin: 0 auto;
+}

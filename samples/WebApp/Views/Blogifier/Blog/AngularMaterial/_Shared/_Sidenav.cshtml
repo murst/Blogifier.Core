@@ -1,0 +1,84 @@
+@using Blogifier.Core.Common
+@using Blogifier.Core.Data.Models
+
+@{
+    Dictionary<string, string> SocialButtons = new Dictionary<string, string>();
+    var cf = Model.CustomFields;
+    foreach(string key in new string[] {  "Google", "Twitter", "Github", "Instagram", "Facebook" })
+    {
+        if (cf.ContainsKey(key) && !string.IsNullOrEmpty(cf[key]))
+        {
+            SocialButtons.Add(key, cf[key]);
+        }
+    }
+}
+
+<md-sidenav
+            class="nav-menu menu-gradient"
+            md-component-id="left-menu"
+            md-is-locked-open="$mdMedia('gt-md')"
+            md-whiteframe="4"
+            hide-print>
+    <div layout="column">
+        <header ng-click="sidenavNavigate('left-menu', 'home', { page: '1' })" tabindex="-1">
+            @if(!String.IsNullOrEmpty(Model.LogoImg))
+            {
+                <img src="@Model.LogoImg" ng-show="$mdMedia('gt-md')" />
+            }
+            <h1>@ApplicationSettings.Title</h1>
+        </header>
+        <md-list>
+            <md-list-item ng-click="sidenavNavigate('left-menu', 'home', { page: '1' })">
+                <p>Home</p>
+                <md-icon>home</md-icon>
+            </md-list-item>
+            <md-list-item ng-click="showSearch()">
+                <p>Search</p>
+                <md-icon ng-hide="blogsearch">search</md-icon>
+                <input type="search" id="term" name="term" class="form-control" ng-show="blogsearch" ng-blur="blogsearch=false" placeholder="Search..." style="width: 10em;">
+            </md-list-item>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <md-divider></md-divider>
+                <menu-toggle label="Administration" target="admin-list"></menu-toggle>
+                <div id="admin-list">
+                    <md-list-item href="/admin">Posts</md-list-item>
+                    <md-list-item href="/admin/files">Files</md-list-item>
+                    <md-list-item href="/admin/settings/profile">Settings</md-list-item>
+                </div>
+            }
+            <md-divider ng-show="categories"></md-divider>
+            <menu-toggle label="Categories" target="categories-list" ng-show="categories"></menu-toggle>
+            <div id="categories-list">
+                <md-list-item ng-repeat="cat in categories" ng-click="sidenavNavigate('left-menu', 'category', { slug: cat.slug })" data-categorySlug="{{cat.slug}}" data-categoryId="{{cat.id}}">{{cat.title}}</md-list-item>
+            </div>
+            
+            @if (SocialButtons.Count > 0)
+            {
+                <md-divider></md-divider>
+                <menu-toggle label="Share" target="share-list"></menu-toggle>
+                <div id="share-list">
+                    @foreach (var key in SocialButtons.Keys)
+                    {
+                        <md-list-item href="@SocialButtons[key]" target="_blank">
+                            <p>@key</p>
+                            <md-icon md-svg-src="@key" aria-label="@key"></md-icon>
+                        </md-list-item>
+                    }
+                </div>
+            }
+            <md-divider></md-divider>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <md-list-item ng-click="profileLogOut()">Logoff</md-list-item>
+            }
+            else
+            {
+                <md-list-item href="/account/login?ReturnUrl=%2Fadmin">
+                    <p>Login</p>
+                    <md-icon>account_circle</md-icon>
+                </md-list-item>
+            }
+        </md-list>
+    </div>
+</md-sidenav>
