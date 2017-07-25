@@ -13,15 +13,8 @@
 
     .spin-icon {
         position: absolute;
-        bottom: .75rem;
-        right: 1rem;
-        display: none;
-
-        i {
-            display: block;
-            font-size: 1.75rem;
-            color: #000;
-        }
+        right:1rem;
+        bottom:.75rem;
     }
 
     @media screen and (max-width:480px) {
@@ -31,77 +24,24 @@
     }
 }
 
-.admin-editor-toolbar {
-    display: none;
-}
+.admin-editor-meta {
+    background: none;
+    border: none;
 
-.admin-editor-toolbar-right {
-    .btn-group > .btn {
-        padding-right: 0;
-        padding-left: 0;
-        width: 3rem;
-
-        &:after {
-            display: none;
-        }
+    .modal-body {
+        padding: 0 !important;
     }
 
-    .dropdown-menu-right {
-        width: 18.75rem;
-        max-height: 18.75rem;
-        padding: 0;
-    }
-
-    @media screen and (max-width:480px) {
-        .btn-group > .btn {
-            width: 2.25rem;
-            padding: 0.5rem 0 0.4375rem;
-        }
+    h5 {
+        margin-bottom: 1rem;
+        text-transform:uppercase;
     }
 }
 
-.admin-editor-toolbar-left {
-    @media screen and (max-width:480px) {
-        .btn {
-            padding: 0.5rem .5rem 0.4375rem;
-        }
-    }
-}
-
-.admin-editor-cover {
-    position: relative;
-    overflow: hidden;
-    height: 14.5rem;
-    border-radius: 3px;
-
-    img {
-        max-width: none;
-        min-height: 100%;
-        max-height: 100%;
-        position: relative;
-        left: 50%;
-        transform: translate(-50%);
-    }
-
-    &-actions {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        z-index: 2;
-        width: 100%;
-
-        button {
-            display: block;
-            width: 100%;
-            color: #000;
-            border: 0;
-            padding: .5rem 0;
-            font-size: .875rem;
-            background: #fff;
-            text-transform: uppercase;
-            font-weight: $font-weight-medium;
-        }
-    }
+.admin-editor-cover, .admin-editor-category, .admin-editor-description {
+    background: #fff;
+    padding: 2rem;
+    margin-bottom: 1rem;
 }
 
 .admin-editor-category {
@@ -110,20 +50,15 @@
 
     form {
         .form-control {
-            background: none;
-            padding: 1rem 1.25rem;
-            border: none;
-            border-bottom: 1px solid #eee;
-            border-radius: 0;
-            border-top-left-radius: 3px;
-            border-top-right-radius: 3px;
+            margin-bottom: .5rem;
         }
     }
 
     ul {
         @include unstyled();
-        height: 11.2rem;
+        height: 12.25rem;
         overflow-x: hidden;
+        border: .0625rem solid #eee;
 
         li {
             position: relative;
@@ -148,7 +83,8 @@
         i {
             display: block;
             width: 2.25rem;
-            line-height: 2.125rem;
+            height: 100%;
+            line-height: 2.25rem;
             border-left: .0625rem solid #eee;
             position: absolute;
             right: 0;
