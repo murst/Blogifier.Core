@@ -327,11 +327,10 @@
                 }
             }
 
-            var $window = $(window);
-            var $moreElement = $('#show-more-posts-div');
+            var $window = $(window);            
             $window.on('scroll', function () {
-                return;
-                if (ctrl.state == 'done') {
+                var $moreElement = $('#show-more-posts');
+                if (ctrl.state == 'done' && $moreElement.length) {
                     var bottomOfScreen = $window.scrollTop() + $window.height();
                     var topOfMoreElement = $moreElement.offset().top;
 
