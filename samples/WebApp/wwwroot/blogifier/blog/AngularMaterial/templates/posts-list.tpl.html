@@ -1,16 +1,21 @@
-﻿<div layout="column" flex style="width: 100%" ng-cloak>
-    <md-toolbar class="md-accent" ng-show="postsListCtrl.header">
-        <div class="md-toolbar-tools">
-            <h2 flex md-truncate>{{postsListCtrl.header}}</h2>
-        </div>
-    </md-toolbar>
-    <div>
-        <div class="featured-posts" layout="column" layout-gt-sm="row" layout-align="space-around stretch" ng-show="postsListCtrl.featuredPosts" style="margin-bottom: 1.5em;">
-            <post-list-item-featured ng-repeat="post in postsListCtrl.featuredPosts" post="post" flex-gt-sm="40" />
-        </div>
-        <div class="posts" layout="column" layout-align="space-around stretch">
-            <post-list-item post="post" ng-repeat="post in postsListCtrl.posts" />
-        </div>
+﻿<div layout="column" flex style="width: 100%" ng-cloak class="post-list">
+    <p ng-show="postsListCtrl.header" class="post-list-header">
+        {{postsListCtrl.header}}
+    </p>
+    <div class="post-list-items">
+        <md-grid-list
+            md-cols="2" md-cols-gt-sm="4"
+            md-row-height="2:1" md-row-height-gt-sm="3:2"
+            md-gutter="20px" md-gutter-gt-sm="28px" >
+            <md-grid-tile md-rowspan="2" md-colspan="2" ng-repeat="post in postsListCtrl.featuredPosts">
+                <post-list-item-featured post="post" class="post-item featured-post-item" />
+            </md-grid-tile>
+            <md-grid-tile md-rowspan="1" md-colspan="2" md-colspan-gt-sm="4" ng-repeat="post in postsListCtrl.posts">
+                <post-list-item post="post" class="post-item" />
+            </md-grid-tile>
+        </md-grid-list>
+        
+        <!--
         <div id="show-more-posts-div" flex layout="row" layout-align="center center" ng-show="postsListCtrl.moreUrl">
             <div style="width: 400px" layout="row" layout-align="space-around center">
                 <md-button ng-click="postsListCtrl.showMore()" style="max-width: 150px;" ng-show="postsListCtrl.state != 'more'">
@@ -22,5 +27,6 @@
                 <md-progress-circular md-mode="indeterminate" ng-show="postsListCtrl.state == 'more'"></md-progress-circular>
             </div>
         </div>
+        -->
     </div>
 </div>

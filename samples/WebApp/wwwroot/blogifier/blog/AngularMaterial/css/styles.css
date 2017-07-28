@@ -3,6 +3,15 @@
     min-width: 100%;
 }
 
+* {
+    position: relative;
+    box-sizing: border-box;
+}
+
+md-nav-bar * {
+    position: static;
+}
+
 .blog-wrapper {
     min-height: 100%;
     width: 100%;
@@ -13,9 +22,7 @@
 }
 
 .content-wrapper {
-    max-width: 1200px; 
     margin: 0 auto; 
-    position: relative;
 }
 
 [ui-view].ng-enter, [ui-view].ng-leave {
@@ -37,11 +44,24 @@
 }
 
 .menu-gradient {
-    background-color: #106CC8;
-    background: -webkit-linear-gradient(#185694, #106cc8);
-    background: linear-gradient(#185694, #106cc8);
-    border-bottom: 1px solid #267ED5;
+    background-color: #dddddd;
+    background: linear-gradient(-45deg, #cccccc, #dddddd, #eeeeee, #ffffff);
     color: white;
+    background-size: 200% 200%;
+}
+
+    .menu-gradient .md-button, .menu-gradient md-icon {
+        color: #333333 !important;
+    }
+
+.animated-gradient {
+    animation: Gradient 15s ease infinite;
+}
+
+@keyframes Gradient {
+    0% { background-position: 0% 50% }
+    50% { background-position: 100% 50% }
+    100% { background-position: 0% 50% }
 }
 
 .header-toolbar {
@@ -54,6 +74,32 @@
     .header-toolbar .header-toolbar-title {
         color: white;
     }
+
+.blog-header {
+    text-align: center;
+    letter-spacing: 1.5em;
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+    .blog-header hr {
+        width: 0;
+        opacity: 0;
+        border-color: lightgray;
+    }
+
+    .blog-header h1 {
+        cursor: pointer;
+        user-select: none;
+        margin: 0.3em;
+    }
+
+.blog-description {
+    text-align: center;
+    color: gray;
+    opacity: 0;
+    padding-bottom: 1em;
+}
 
 .nav-menu {
     -webkit-flex-shrink: 0;
@@ -101,7 +147,6 @@
 
     .nav-menu md-list .menu-toggle-list {
         overflow: hidden;
-        position: relative;
         z-index: 1;
         height: 0;
     }
@@ -110,66 +155,139 @@
         color: white;
     }
 
-.featured-post-item {
-    transition: all 0.5s ease-in-out;
-    cursor: pointer;
-    position: relative;
-    background-position: center;
-    background-size: auto 100%;
-    background-repeat: no-repeat;
-    height: 300px;
-    padding: 0 1em;
-    margin: 1em;
+.post-list {
+    margin: 1em auto 0 auto;
 }
 
-    .featured-post-item:hover {
-        background-size: auto 110%;
-    }
-
-    .featured-post-item h1 {
-        background-color: rgba(0, 0, 0, 0.75);
-        margin: 0;
-        padding: 0.5em;
-        color: white;
-        font-size: 1.5em;
+    .post-list .post-list-header {
+        text-align: center;
+        font-style: italic;
     }
 
 .post-item {
+    transition: all 0.5s ease-in-out;
     cursor: pointer;
-    height: 100px;
-    margin: 1em;
-    overflow-y: hidden;
+    padding: 0 1em;
+    height: 100%;
+    width: 100%;
 }
 
+    .post-item .post-item-wrapper {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background-color: #eeeeee;
+        transition: all 300ms ease-out;
+    }
+
+    .post-item:hover .post-item-wrapper {
+        background-color: #cccccc;
+    }
+
     .post-item .post-item-image {
-        width: 200px;
-        min-width: 200px;
-        transition: all 0.5s ease-in-out;
-        background-position: center;
-        background-size: auto 100%;
+        transition: all 300ms ease-out;
+        background-position: 50% 50%;
         background-repeat: no-repeat;
+        background-size: cover;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
     }
 
     .post-item:hover .post-item-image {
-        background-size: auto 110%;
+        transform: scale(1.1);
+        opacity: 0.8;
     }
 
-    .post-item:hover .post-item-text h1 {
-        text-decoration: underline;
+    .post-item h1 {
+        margin: 0;
+        padding: 0.5em;
+        font-size: 1.5em;
+        width: 100%;
+        min-height: 30%;
     }
 
-    .post-item .post-item-text {
-        padding-left: 1em;
-    }
-
-        .post-item .post-item-text h1 {
-            margin: 0;
-            font-size: 1.2em;
+        .post-item h1 .post-item-title {
+            color: #333333;
+            display: block;
+            margin-bottom: 0.3em;
         }
 
-        .post-item .post-item-text p {
-            margin: 1em 0 0 0;
+        .post-item h1 .post-item-description {
+            color: #666666;
+            font-size: 0.8em;
+            display: block;
         }
+
+        .post-item h1 .post-item-text-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(250, 250, 250, .75);
+        }
+
+        .post-item:hover h1 .post-item-title {
+            text-decoration: underline;
+        }
+
+.post {
+
+}
+
+    .post .post-header {
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 500px;
+    }
+
+        .post .post-header .post-header-text-wrapper {
+            padding: 1em 2em;
+            width: 100%;
+        }
+
+            .post .post-header .post-header-text-wrapper .post-header-text-bg {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(255, 255, 255, 0.75);
+            }
+
+            .post .post-header .post-header-text-wrapper .post-title {
+                margin: 0.6em 0 0 0;
+            }
+
+            .post .post-header .post-header-text-wrapper .post-description {
+                color: #333333;
+            }
+
+            .post .post-header .post-header-text-wrapper .post-sig {
+                text-align: center;
+            }
+
+                post .post-header .post-header-text-wrapper .post-sig .post-author a {
+                    text-transform: uppercase;
+                    text-decoration: none;
+                    color: black;
+                    font-weight: bold;
+                }
+
+                    post .post-header .post-header-text-wrapper .post-sig .post-author a:hover {
+                        text-decoration: underline;
+                    }
+
+    .post .post-content {
+        padding: 1em;
+        width: 100%;
+        margin: 0 auto;
+        background-color: #efefef;
+    }
 
 .docs-menu .menu-toggle-list a.md-button {
     display: block;
@@ -188,4 +306,24 @@
 #disqus_thread {
     max-width: 800px;
     margin: 0 auto;
+}
+
+.post .post-header .post-header-text-wrapper,
+.post-list,
+.post .post-content,
+.menu-bar .md-toolbar-tools,
+.category-bar {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media screen and (max-width: 720px) {
+    body {
+        font-size: 90%;
+    }
+
+    .blog-header {
+        font-size: 1em;
+    }
 }

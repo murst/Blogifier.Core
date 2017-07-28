@@ -1,19 +1,26 @@
-﻿<md-content layout-padding ng-show="postCtrl.state == 'done'">
-    <div md-whiteframe="4" flex flex-gt-sm="90" style="margin: 0 auto;">
-        <h1 style="margin-bottom: 0;">{{postCtrl.post.title}}</h1>
-        <div>
-            <span class="post-single-author">by <a ui-sref="author({ slug: postCtrl.post.profile.slug })">{{postCtrl.post.profile.authorName}}</a></span>
-            on 
-            <span class="post-single-date">{{postCtrl.post.published | date: 'shortDate'}}</span>
+﻿<md-content ng-show="postCtrl.state == 'done'" class="post">
+    <div class="post-header" style="background-image: url('{{postCtrl.post.image}}')" layout="column" layout-align="end center">
+        <div class="post-header-text-wrapper">
+            <div class="post-header-text-bg"></div>
+            <div class="post-header-text">
+                <h1 class="post-title">{{postCtrl.post.title}}</h1>
+                <p class="post-description">{{postCtrl.post.description}}</p>
+                <div class="post-sig">
+                    <span class="post-author"><a ui-sref="author({ slug: postCtrl.post.profile.slug })">{{postCtrl.post.profile.authorName}}</a></span>
+                    &nbsp;&mdash;&nbsp;
+                    <span class="post-date">{{postCtrl.post.published | date: 'shortDate'}}</span>
+                </div>
+            </div>
         </div>
+    </div>
+    <div class="post-content">
         <div>
             <md-chips readonly="true" md-removable="false">
                 <md-chip ng-repeat="cat in postCtrl.categories"><a ui-sref="category({ slug: cat.slug })" style="text-decoration: none; color: black;">{{cat.text}}</a></md-chip>
             </md-chips>
         </div>
-        <div ng-bind-html="postCtrl.post.content | unsafe">
-        </div>
-    </div>
-    <disqus-thread></disqus-thread>
+        <div ng-bind-html="postCtrl.post.content | unsafe"></div>
+        <disqus-thread></disqus-thread>
+    </div>    
     <div ng-include src="'/blogifier/api/public/settings/post'"></div>
 </md-content>

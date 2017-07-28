@@ -1,4 +1,10 @@
 ﻿@using Blogifier.Core.Common
+@{
+    var themeFolder = "blogifier/blog/AngularMaterial";
+    var menubarView = string.Format("~/Views/{0}/_Shared/_Menubar.cshtml", themeFolder);
+}
+@if (false)
+{
 <md-toolbar style="position: relative; background-color: transparent;" ng-show="!$mdMedia('gt-md')">
     <md-toolbar class="md-menu-toolbar menu-gradient header-toolbar">
         <div class="md-toolbar-tools">
@@ -10,3 +16,13 @@
         </div>
     </md-toolbar>
 </md-toolbar>
+}
+<div class="blog-header">
+    <hr />
+    <h1 ui-sref="home({ page: '1' })" tabindex="-1">&nbsp;@ApplicationSettings.Title</h1>
+    <hr />
+</div>
+<div class="blog-description">
+    @ApplicationSettings.Description;
+</div>
+@Html.Partial(menubarView)

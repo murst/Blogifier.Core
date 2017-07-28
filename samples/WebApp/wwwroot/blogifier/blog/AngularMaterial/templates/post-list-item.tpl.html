@@ -1,7 +1,10 @@
-﻿<div class="post-item" layout="row" layout-align="start stretch" ui-sref="post({ slug: postListItemCtrl.post.slug })">
-    <div class="post-item-image" style="background-image: url('{{postListItemCtrl.post.image}}')"></div>
-    <div class="post-item-text">
-        <h1>{{postListItemCtrl.post.title}}</h1>
-        <p ng-bind-html="postListItemCtrl.post.content | unsafe">{{postListItemCtrl.post.content}}</p>
-    </div>
+﻿<div flex layout="row" layout-align="start stretch" ui-sref="post({ slug: postListItemCtrl.post.slug })" class="post-item-wrapper">
+    <div flex="30" style="overflow: hidden;">
+        <div class="post-item-image" style="background-image: url('{{postListItemCtrl.post.image}}')" />
+    </div>    
+    <h1 flex>
+        <span class="post-item-text-bg"></span>
+        <span class="post-item-title">{{postListItemCtrl.post.title}}</span>
+        <span class="post-item-description">{{postListItemCtrl.post.content}}</span>
+    </h1>
 </div>

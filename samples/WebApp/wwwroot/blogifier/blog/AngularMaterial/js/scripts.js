@@ -101,21 +101,60 @@
         });
     }])
 
-    .controller('angularMaterialAppController', ['$log', '$scope', '$rootScope', '$mdSidenav', '$state', '$transitions', '$http', '$mdMedia', function ($log, $scope, $rootScope, $mdSidenav, $state, $transitions, $http, $mdMedia) {
+    .controller('angularMaterialAppController', ['$log', '$scope', '$rootScope', '$mdSidenav', '$state', '$stateParams', '$transitions', '$http', '$mdMedia', function ($log, $scope, $rootScope, $mdSidenav, $state, $stateParams, $transitions, $http, $mdMedia) {
 
         $rootScope.blogSettings = {};
         $scope.$mdMedia = $mdMedia;
         var $window = $(window);
 
+        $scope.blogsearch = false;
+        $scope.categoryMenuVisible = false;
+        $scope.selectedCategoryNavItemIndex = -1;
+
         $transitions.onStart({}, function () {
             $window.scrollTop(0);
             $('#load-progress').show();
+            $scope.toggleCategoryMenu(false);
+            $scope.selectedCategoryNavItemIndex = -1;
         });
+
+        $scope.toggleCategoryMenu = function(bShow) {
+            $scope.categoryMenuVisible = bShow;
+            if (bShow) {
+                setTimeout(function () {
+                    // sometimes there is a bug where the tabs don't get the appropriate size, so trigger a resize
+                    $('md-pagination-wrapper').trigger('resize');
+                }, 100);
+            }
+        }
+
+        function updateSelectedCategoryIndex(slug) {
+            if ($rootScope.categories) {
+                for (var catIndex = 0; catIndex < $rootScope.categories.length; catIndex++) {
+                    if (slug == $rootScope.categories[catIndex].slug) {                       
+                        $scope.selectedCategoryNavItemIndex = catIndex;
+                        break;
+                    }
+                }
+            }
+            else {
+                // categories may not have loaded yet, so try again in a bit
+                setTimeout(function () {
+                    updateSelectedCategoryIndex(slug);
+                    $scope.$apply();
+                }, 100);
+            }
+        };
+
+        $transitions.onEnter({ to: 'category' }, function (trans) {
+            $scope.toggleCategoryMenu(true);
+            updateSelectedCategoryIndex(trans.params().slug);
+        });
+
         $scope.$on('loadComplete', function () {
             $('#load-progress').hide();
         });
 
-        $scope.blogsearch = false;
         $scope.showSearch = function () {
             $scope.blogsearch = true;
             setTimeout(function () {
@@ -141,9 +180,17 @@
         };
 
         $scope.sidenavNavigate = function (sidenavId, targetState, pObj) {
-            $state.go(targetState, pObj);
+            $scope.navigate(targetState, pObj);
             $mdSidenav(sidenavId).close();
         };
+
+        $scope.menuNavigate = function (menuId, targetState, pObj) {
+            $scope.navigate(targetState, pObj);
+        }
+
+        $scope.navigate = function (targetState, pObj) {
+            $state.go(targetState, pObj);
+        }
 
         $window.on('scroll', function () {
             $scope.$apply(function () {
@@ -163,11 +210,26 @@
                 method: 'GET',
                 url: url
             }).then(function successCallback(response) {
-                $scope.categories = response.data;
+                $rootScope.categories = response.data;  
             }, function errorCallback(response) {
 
             });
         };
+
+        var $header = $('.blog-header h1');
+        $header.textillate({
+            in: {
+                effect: 'fadeInLeftBig',
+                reverse: true,
+                callback: function () {
+                    var headerWidth = $header.find('> span').width() * 0.7;
+                    $('.blog-header hr').animate({ width: headerWidth + 'px', opacity: 1 }, 'slow');
+                    setTimeout(function () {
+                        $('.blog-description').animate({ opacity: 1 }, 'slow');
+                    }, 1000);
+                }
+            }
+        });
 
         $scope.loadCategories();
 
@@ -181,7 +243,7 @@
             config: '<'
         },
         templateUrl: '/blogifier/blog/AngularMaterial/templates/posts-list.tpl.html',
-        controller: ['$http', '$element', '$scope', function ($http, $element, $scope) {
+        controller: ['$http', '$element', '$scope', '$rootScope', function ($http, $element, $scope, $rootScope) {
             this.state = 'init';
             var ctrl = this;
 
@@ -204,8 +266,8 @@
                             case 'home':
                             case 'author':
                                 // set up featured posts
-                                ctrl.featuredPosts = response.data.posts.slice(0, 3);
-                                ctrl.posts = response.data.posts.slice(3);
+                                ctrl.featuredPosts = response.data.posts.slice(0, 2);
+                                ctrl.posts = response.data.posts.slice(2);
                                 break;
                             default:
                                 ctrl.posts = response.data.posts;
@@ -214,10 +276,22 @@
 
                         switch (ctrl.config.type) {
                             case 'category':
-                                ctrl.header = 'Posts in category: ' + $('[data-categorySlug="' + ctrl.config.slug + '"]').text();
+                                if ($rootScope.categories) {
+                                    var categoryName = '';
+                                    for (var catCount = 0; catCount < $rootScope.categories.length; catCount++) {
+                                        var cat = $rootScope.categories[catCount];
+                                        if (cat.slug == ctrl.config.slug) {
+                                            categoryName = cat.title;
+                                            break;
+                                        }
+                                    }
+                                    if (categoryName) {
+                                        ctrl.header = 'Showing posts in category: ' + categoryName;
+                                    }
+                                }                                
                                 break;
                             case 'search':
-                                ctrl.header = 'Search results for: ' + ctrl.config.slug;
+                                ctrl.header = 'Showing search results for: ' + ctrl.config.slug;
                                 break;
                             default:
                                 ctrl.header = undefined;
@@ -256,6 +330,7 @@
             var $window = $(window);
             var $moreElement = $('#show-more-posts-div');
             $window.on('scroll', function () {
+                return;
                 if (ctrl.state == 'done') {
                     var bottomOfScreen = $window.scrollTop() + $window.height();
                     var topOfMoreElement = $moreElement.offset().top;
@@ -296,7 +371,7 @@
             config: '<'
         },
         templateUrl: '/blogifier/blog/AngularMaterial/templates/post.tpl.html',
-        controller: ['$http', '$sce', '$scope', function ($http, $sce, $scope) {
+        controller: ['$http', '$sce', '$scope', '$rootScope', function ($http, $sce, $scope, $rootScope) {
             this.state = 'init';
             var ctrl = this;
 
@@ -307,17 +382,20 @@
                 }).then(function successCallback(response) {
                     ctrl.post = response.data;
 
-                    if (ctrl.post && ctrl.post.postCategories) {
+                    if (ctrl.post && ctrl.post.postCategories && $rootScope.categories) {
                         var categories = [];
                         for (var i = 0; i < ctrl.post.postCategories.length; i++) {
                             var catId = ctrl.post.postCategories[i].categoryId;
-                            var $catElement = $('[data-categoryId="' + catId + '"]');
-                            var catText = $catElement.text();
-                            var catSlug = $catElement.attr('data-categorySlug');
-                            categories.push({
-                                text: catText,
-                                slug: catSlug
-                            });
+                            for (var j = 0; j < $rootScope.categories.length; j++) {
+                                var cat = $rootScope.categories[j];
+                                if (catId == cat.id) {
+                                    categories.push({
+                                        text: cat.title,
+                                        slug: cat.slug
+                                    });
+                                    break;
+                                }
+                            }                            
                         }
                         ctrl.categories = categories;
                     }
