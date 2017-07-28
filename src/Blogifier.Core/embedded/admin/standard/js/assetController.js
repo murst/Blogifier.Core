@@ -60,10 +60,10 @@
         var older = '';
         var newer = '';
         if (pg.showOlder === true) {
-            older = '<li onclick="return assetController.loadFileManager(' + pg.older + ')"><a href="#"><i class="fa fa-long-arrow-left"></i></a></li>';
+            older = '<li onclick="return assetController.loadFileManager(' + pg.older + ')"><a href="#" role="button" aria-label="Older posts"><i class="fa fa-long-arrow-left"></i></a></li>';
         }
         if (pg.showNewer === true) {
-            newer = '<li onclick="return assetController.loadFileManager(' + pg.newer + ')"><a href="#"><i class="fa fa-long-arrow-right"></i></a></li>';
+            newer = '<li onclick="return assetController.loadFileManager(' + pg.newer + ')"><a href="#" role="button" aria-label="Newer posts"><i class="fa fa-long-arrow-right"></i></a></li>';
         }
         $('.pagination-custom').empty();
         if (pg.showNewer === true || pg.showOlder === true) {
@@ -97,7 +97,7 @@
 
         $('#assetEdit').append(tag);
 
-        var btn = '<button class="btn btn-danger btn-main mr-2" onclick="return assetController.remove(' + data.id + ')">Delete</button>';
+        var btn = '<button class="btn btn-danger mr-2" onclick="return assetController.remove(' + data.id + ')">Delete</button>';
         btn += '<button class="btn btn-secondary" onclick="return assetController.loadFileManager()">Cancel</button>';
         $('#asset-edit-actions').empty();
         $('#asset-edit-actions').append(btn);
