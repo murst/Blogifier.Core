@@ -222,8 +222,7 @@
                 effect: 'fadeInLeftBig',
                 reverse: true,
                 callback: function () {
-                    var headerWidth = $header.find('> span').width() * 0.7;
-                    $('.blog-header hr').animate({ width: headerWidth + 'px', opacity: 1 }, 'slow');
+                    $('.blog-header hr').animate({ width: '70%', opacity: 1 }, 'slow');
                     setTimeout(function () {
                         $('.blog-description').animate({ opacity: 1 }, 'slow');
                     }, 1000);
