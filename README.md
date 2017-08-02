@@ -2,13 +2,13 @@
 
 ## Blogifier.Core.PostgreSql [![MyGet](https://buildstats.info/myget/rtur/Blogifier.Core.PostgreSql)](https://www.myget.org/feed/rtur/package/nuget/Blogifier.Core.PostgreSql)
 
-This project currently in the pre-release and not completely ready for production use.
+The goal of this project is to "blogify" ASP.NET applications; Blogifier.Core built and published as a [Nuget package](https://www.myget.org/feed/rtur/package/nuget/Blogifier.Core) that can be installed by ASP.NET application to provide common blogging functionality.
 
-## What is Blogifier.Core
+## Demo site
 
-The goal of this project is to "blogify" new and existing ASP.NET applications; Blogifier.Core built and published as a [Nuget package](https://www.myget.org/feed/rtur/package/nuget/Blogifier.Core) that can be installed by ASP.NET application to provide common blogging functionality.
+The [demo site](http://blogifier.azurewebsites.net) is a playground you can use to check out Blogifier features. You can register new user and write post to test admin panel.
 
-[![Introductory Youtube video](https://img.youtube.com/vi/vb0lYJKGHSw/0.jpg)](https://www.youtube.com/watch?v=vb0lYJKGHSw)
+![demo site](https://user-images.githubusercontent.com/1932785/28844834-8fd2a022-76cb-11e7-9262-13e4fb31079f.PNG)
 
 ## System Requirements
 
@@ -32,7 +32,7 @@ Designed for cross-platform development, every build pushed to Windows and Linux
 1. In VS 2017, create new ASP.NET Core 1.1 Web Application with user authentication (single user accounts)
 2. Open Nuget Package Manager console and run this command:
 ```
-Install-Package Blogifier.Core -Source https://www.myget.org/F/rtur/api/v3/index.json
+Install-Package Blogifier.Core
 ```
 3. Configure services and application in Startup.cs:
 ```csharp
@@ -85,3 +85,9 @@ Connection string cascades based on conditions:
   }
 }
 ```
+
+## Administration
+
+![admin](https://user-images.githubusercontent.com/1932785/28844983-225a02c8-76cc-11e7-8293-a15d7e1f0422.PNG)
+
+![admin2](https://user-images.githubusercontent.com/1932785/28845126-99c0a6fa-76cc-11e7-9232-57cb1f42b2ad.PNG)
