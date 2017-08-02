@@ -266,7 +266,7 @@ md-nav-bar * {
         }
 
 .post {
-
+    font-size: 1.2em;
 }
 
     .post .post-header {
@@ -320,6 +320,27 @@ md-nav-bar * {
         background-color: #efefef;
     }
 
+    .post .post-content a {
+        color: red;
+        text-decoration: none;
+    }
+
+        .post .post-content a:hover {
+            text-decoration: underline;
+        }
+
+    .post .post-content pre, .post .post-content code {
+        display: block;
+        overflow-x: auto;
+        width: 100%;
+        white-space: pre-wrap;
+        font: 100%/1.500 monospace;
+        border: 1px solid #999999;
+        border-left: 1em solid #999999;
+        padding-left: 1em;
+        background-color: #eeeeff;
+    }
+
 .docs-menu .menu-toggle-list a.md-button {
     display: block;
     padding: 0 16px 0 32px;
@@ -335,8 +356,11 @@ md-nav-bar * {
 }
 
 #disqus_thread {
-    max-width: 800px;
     margin: 0 auto;
+    margin-top: 2em;
+    padding-top: 2em;
+    max-width: 1000px;
+    border-top: 1px solid #333333;
 }
 
 .post .post-header .post-header-text-wrapper,
