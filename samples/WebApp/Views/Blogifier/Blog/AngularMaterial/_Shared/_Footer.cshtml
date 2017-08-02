@@ -1,6 +1,13 @@
 ﻿@using Blogifier.Core.Common
 @{
     var themeFolder = "blogifier/blog/custom";
+    var customFooter = "";
+    try
+    {
+        var cf = Model.CustomFields;
+        customFooter = (cf.ContainsKey("Footer") && !string.IsNullOrEmpty(cf["Footer"])) ? cf["Footer"] : "";
+    }
+    catch { }
 }
 <footer layout-padding>
     <p style="text-align: center; font-size: smaller;">
@@ -8,3 +15,4 @@
     </p>
 </footer>
 <form method="post" id="frmLogOut" asp-controller="Account" asp-action="Logout" asp-antiforgery="true"></form>
+@Html.Raw(customFooter)
