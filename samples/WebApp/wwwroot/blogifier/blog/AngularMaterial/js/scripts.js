@@ -43,15 +43,35 @@
             }
         });
         $stateProvider.state('category', {
-            url: '/category/:slug/:page',
+            url: '/category/:category/:page',
             component: 'postsList',
             resolve: {
                 config: ['$stateParams', function ($stateParams) {
                     return {
                         type: 'category',
+                        category: $stateParams.category,
                         page: $stateParams.page,
-                        slug: $stateParams.slug,
-                        url: '/blogifier/api/public/posts/category/' + $stateParams.slug + '?page={{page}}'
+                        url: '/blogifier/api/public/posts/category/' + $stateParams.category + '?page={{page }}'
+                    }
+                }]
+            },
+            params: {
+                page: {
+                    value: '1'
+                }
+            }
+        });
+        $stateProvider.state('authorcategory', {
+            url: '/authorcategory/:author/:category/:page',
+            component: 'postsList',
+            resolve: {
+                config: ['$stateParams', function ($stateParams) {
+                    return {
+                        type: 'authorcategory',
+                        author: $stateParams.author,
+                        category: $stateParams.category,
+                        page: $stateParams.page,
+                        url: '/blogifier/api/public/posts/authorcategory/' + $stateParams.author + '/' + $stateParams.category + '?page={{page }}'
                     }
                 }]
             },
@@ -146,6 +166,11 @@
             }
         };
 
+        $transitions.onEnter({ to: 'authorcategory' }, function (trans) {
+            $scope.toggleCategoryMenu(true);
+            updateSelectedCategoryIndex(trans.params().slug);
+        });
+
         $transitions.onEnter({ to: 'category' }, function (trans) {
             $scope.toggleCategoryMenu(true);
             updateSelectedCategoryIndex(trans.params().slug);
@@ -204,7 +229,7 @@
 
         $scope.loadCategories = function (author) {
 
-            var url = author ? '/blogifier/api/public/' + author + '/categories' : '/blogifier/api/public/categories';
+            var url = author ? '/blogifier/api/public/categories/' + author : '/blogifier/api/public/categories';
 
             $http({
                 method: 'GET',
@@ -230,7 +255,7 @@
             }
         });
 
-        $scope.loadCategories();
+        $scope.loadCategories($rootScope.blogSettings.author);
 
         if (!window.location.hash) {
             $state.go('home', { page: 1 });
@@ -274,12 +299,13 @@
                         }
 
                         switch (ctrl.config.type) {
+                            case 'authorcategory':
                             case 'category':
                                 if ($rootScope.categories) {
                                     var categoryName = '';
                                     for (var catCount = 0; catCount < $rootScope.categories.length; catCount++) {
                                         var cat = $rootScope.categories[catCount];
-                                        if (cat.slug == ctrl.config.slug) {
+                                        if (cat.slug == ctrl.config.category) {
                                             categoryName = cat.title;
                                             break;
                                         }
@@ -378,28 +404,22 @@
                     method: 'GET',
                     url: url
                 }).then(function successCallback(response) {
-                    ctrl.post = response.data;
-
-                    if (ctrl.post && ctrl.post.postCategories && $rootScope.categories) {
+                    if (response.data) {
+                        ctrl.post = response.data.blogPost;
                         var categories = [];
-                        for (var i = 0; i < ctrl.post.postCategories.length; i++) {
-                            var catId = ctrl.post.postCategories[i].categoryId;
-                            for (var j = 0; j < $rootScope.categories.length; j++) {
-                                var cat = $rootScope.categories[j];
-                                if (catId == cat.id) {
-                                    categories.push({
-                                        text: cat.title,
-                                        slug: cat.slug
-                                    });
-                                    break;
-                                }
-                            }                            
+                        if (response.data.blogCategories) {
+                            for (var i = 0; i < response.data.blogCategories.length; i++) {
+                                var cat = response.data.blogCategories[i];
+                                categories.push({
+                                    text: cat.text,
+                                    slug: cat.value
+                                });
+                            }
                         }
                         ctrl.categories = categories;
+                        ctrl.state = 'done';
+                        $scope.$emit('loadComplete');
                     }
-
-                    ctrl.state = 'done';
-                    $scope.$emit('loadComplete');
                 }, function errorCallback(response) {
                     ctrl.state = 'error';
                     $scope.$emit('loadComplete');

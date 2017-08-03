@@ -19,5 +19,5 @@
     </div>
 </md-toolbar>
 <md-tabs id="category-bar" class="category-bar" aria-label="Category Bar" ng-show="categoryMenuVisible" md-selected="selectedCategoryNavItemIndex">
-    <md-tab ng-repeat="cat in categories" ng-click="menuNavigate('category-bar', 'category', { slug: cat.slug })" name="{{cat.slug}}" data-categorySlug="{{cat.slug}}" data-categoryId="{{cat.id}}" label="{{cat.title}}"></md-tab>
+    <md-tab ng-repeat="cat in categories" ng-click="menuNavigate('category-bar', 'category', { category: cat.slug })" name="{{cat.slug}}" data-categorySlug="{{cat.slug}}" data-categoryId="{{cat.id}}" label="{{cat.title}}"></md-tab>
 </md-tabs>

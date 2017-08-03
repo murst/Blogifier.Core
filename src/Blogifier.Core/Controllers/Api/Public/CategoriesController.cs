@@ -20,9 +20,24 @@ namespace Blogifier.Core.Controllers.Api.Public
             _logger = logger;
         }
 
+        // GET: blogifier/api/public/categories
+        /// <summary>
+        /// Get all categories
+        /// </summary>
         public IEnumerable<Category> Get()
         {
             return _db.Categories.Find(c => c.LastUpdated >= DateTime.MinValue);            
+        }
+
+        // GET: blogifier/api/public/categories/filip-stanek
+        /// <summary>
+        /// Get all categories for author
+        /// </summary>
+        [Route("{author}")]
+        public IEnumerable<Category> Get(string author)
+        {
+            Profile profile = _db.Profiles.Single(p => p.Slug == author);
+            return _db.Categories.Find(c => c.ProfileId == profile.Id);
         }
     }
 }
