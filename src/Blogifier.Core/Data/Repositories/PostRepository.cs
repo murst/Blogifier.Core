@@ -41,6 +41,7 @@ namespace Blogifier.Core.Data.Repositories
             var skip = pager.CurrentPage * pager.ItemsPerPage - pager.ItemsPerPage;
             var posts = _db.PostCategories.Include(pc => pc.BlogPost).Include(pc => pc.Category)
                 .Where(pc => pc.BlogPost.Published > DateTime.MinValue && pc.Category.Slug == slug)
+                .OrderByDescending(p => p.LastUpdated)
                 .Select(pc => new PostListItem
                 {
                     BlogPostId = pc.BlogPostId,

@@ -30,10 +30,24 @@ namespace Blogifier.Core.Controllers.Api.Public
             return _ds.GetPostsByAuthor(slug, page, true);
         }
 
-        // GET blogifier/api/public/posts/author/category/mobile
-        // GET blogifier/api/public/posts/author/category/mobile?page=2
+        // GET blogifier/api/public/posts/category/mobile
+        // GET blogifier/api/public/posts/category/mobile?page=2
+        /// <summary>
+        /// Get categories for single-blog mode
+        /// </summary>
+        [HttpGet("[action]/{cat}")]
+        public BlogCategoryModel Category(string cat, int page = 1)
+        {
+            return _ds.GetPostsByCategory(string.Empty, cat, page, true);
+        }
+
+        // GET blogifier/api/public/posts/authorcategory/filip-stanek/mobile
+        // GET blogifier/api/public/posts/authorcategory/filip-stanek/mobile?page=2
+        /// <summary>
+        /// Get categories for multi-blog mode
+        /// </summary>
         [HttpGet("[action]/{auth}/{cat}")]
-        public BlogCategoryModel Category(string auth, string cat, int page = 1)
+        public BlogCategoryModel AuthorCategory(string auth, string cat, int page = 1)
         {
             return _ds.GetPostsByCategory(auth, cat, page, true);
         }

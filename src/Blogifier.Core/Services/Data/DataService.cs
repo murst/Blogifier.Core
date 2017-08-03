@@ -63,6 +63,13 @@ namespace Blogifier.Core.Services.Data
             };
         }
 
+        /// <summary>
+        /// Get posts by category. 
+        /// </summary>
+        /// <param name="auth">
+        /// Single-Blog mode: the author field should be blank.
+        /// Multi-Blog mode: the author field should contain the profile slug
+        /// </param>
         public BlogCategoryModel GetPostsByCategory(string auth, string cat, int page, bool pub = false)
         {
             var pager = new Pager(page);
@@ -72,13 +79,26 @@ namespace Blogifier.Core.Services.Data
                 return null;
 
             if (pub) posts = SantizePostListItems(posts);
-            var profile = _db.Profiles.Single(p => p.Slug == auth);
+
+            Core.Data.Domain.Profile profile = null;
+            Core.Data.Domain.Category category = null;
+            Dictionary<string, string> customFields = null;
+            if (String.IsNullOrEmpty(auth))
+            {
+                category = _db.Categories.Single(c => c.Slug == cat);
+                customFields = new Dictionary<string, string>();
+            }
+            else {
+                profile = _db.Profiles.Single(p => p.Slug == auth);
+                category = _db.Categories.Single(c => c.Slug == cat && c.ProfileId == profile.Id);
+                customFields = _custom.GetProfileCustomFields(profile).Result;
+            }
 
             return new BlogCategoryModel
             {
                 Profile = profile,
-                CustomFields = _custom.GetProfileCustomFields(profile).Result,
-                Category = _db.Categories.Single(c => c.Slug == cat && c.ProfileId == profile.Id),
+                CustomFields = customFields,
+                Category = category,
                 Posts = posts,
                 Pager = pager
             };
