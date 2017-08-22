@@ -29,17 +29,34 @@ namespace Blogifier.Core.Controllers.Api
 
         // GET: api/assets/2?type=editor
         [HttpGet("{page:int?}")]
-        public AdminAssetList Get(int page)
+        public AdminAssetList Get(int page, string search, string filter)
         {
             var profile = GetProfile();
             var pager = new Pager(page);
             IEnumerable<Asset> assets;
 
+            var term = search == null || search == "null" ? "" : search;
+            var fltr = filter == null || filter == "null" ? "" : filter;
+
             if (Request.Query.ContainsKey("type") && Request.Query["type"] == "editor")
-                assets = _db.Assets.Find(a => a.ProfileId == profile.Id, pager);
+            {
+                if(filter == "filterImages")
+                {
+                    assets = _db.Assets.Find(a => a.ProfileId == profile.Id && a.Title.Contains(term) && a.AssetType == AssetType.Image, pager);
+                }
+                else if (filter == "filterAttachments")
+                {
+                    assets = _db.Assets.Find(a => a.ProfileId == profile.Id && a.Title.Contains(term) && a.AssetType == AssetType.Attachment, pager);
+                }
+                else
+                {
+                    assets = _db.Assets.Find(a => a.ProfileId == profile.Id && a.Title.Contains(term), pager);
+                }
+            }
             else
-                assets = _db.Assets.Find(a => a.ProfileId == profile.Id && a.AssetType == 0, pager);                  
-            
+            {
+                assets = _db.Assets.Find(a => a.ProfileId == profile.Id && a.AssetType == 0 && a.Title.Contains(term), pager);
+            }
             return new AdminAssetList { Assets = assets, Pager = pager };
         }
 
@@ -90,6 +107,16 @@ namespace Blogifier.Core.Controllers.Api
             post.Image = asset.Url;
             _db.Complete();
             return asset;
+        }
+
+        // POST: api/assets/upload
+        [HttpPost]
+        [Route("upload")]
+        public async Task<ActionResult> TinyMceUpload(IFormFile file)
+        {
+            var asset = await SaveFile(file);
+            var location = asset.Url;
+            return Json(new { location });
         }
 
         // POST api/assets/multiple

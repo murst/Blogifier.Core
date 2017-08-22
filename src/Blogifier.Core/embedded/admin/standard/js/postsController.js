@@ -1,23 +1,45 @@
 ﻿var postsController = function (dataService) {
-    function publish(id) {
-        dataService.put("blogifier/api/posts/publish/" + id, null, publishCallback, fail);
+    function publish() {
+        var items = $('.post-list input:checked');
+        for (i = 0; i < items.length; i++) {
+            if (i + 1 < items.length) {
+                dataService.put("blogifier/api/posts/publish/" + items[i].id, null, emptyCallback, fail);
+            }
+            else {
+                dataService.put("blogifier/api/posts/publish/" + items[i].id, null, updateCallback, fail);
+            }
+        }
     }
 
-    function unpublish(id) {
-        dataService.put("blogifier/api/posts/unpublish/" + id, null, publishCallback, fail);
+    function unpublish() {
+        var items = $('.post-list input:checked');
+        for (i = 0; i < items.length; i++) {
+            if (i + 1 < items.length) {
+                dataService.put("blogifier/api/posts/unpublish/" + items[i].id, null, emptyCallback, fail);
+            }
+            else {
+                dataService.put("blogifier/api/posts/unpublish/" + items[i].id, null, updateCallback, fail);
+            }
+        }
     }
 
-    function publishCallback() {
+    function publishCallback() { }
+
+    function removePost() {
+        var items = $('.post-list input:checked');
+        for (i = 0; i < items.length; i++) {
+            if (i + 1 < items.length) {
+                dataService.remove('blogifier/api/posts/' + items[i].id, emptyCallback, fail);
+            }
+            else {
+                dataService.remove('blogifier/api/posts/' + items[i].id, updateCallback, fail);
+            }
+        }
+    }
+
+    function emptyCallback() { }
+    function updateCallback() {
         toastr.success('Updated');
-        reload();
-    }
-
-    function removePost(id) {
-        dataService.remove('blogifier/api/posts/' + id, removeCallback, fail);
-    }
-
-    function removeCallback() {
-        toastr.success('Removed');
         reload();
     }
 

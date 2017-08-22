@@ -1,0 +1,168 @@
+.mce-tinymce {
+    border: none !important;
+
+    .mce-toolbar-grp {
+        position: fixed;
+        top: 0;
+        background:$color-brand-purple-dark;
+        width: 100%;
+        left: 0;
+        height: 4.75rem;
+        z-index: 1000;
+        padding: 0;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+
+        > div {
+            width: 100%;
+            max-width: 1024px;
+            margin: 1rem auto;
+        }
+
+        * {
+            padding: 0;
+            margin: 0;
+            border: none;
+        }
+
+        @media (max-width:1024px) {
+            padding-right: 4.75rem;
+        }
+
+        @media (max-width: 800px) {
+            > div {
+                margin: 0;
+                border-right: 1px solid rgba(0,0,0,0.1) !important;
+            }
+        }
+    }
+}
+
+#mceu_20-body {
+    @include clearfix;
+
+    .mce-btn-group {
+        width: 100%;
+
+        > div {
+            @include clearfix;
+        }
+
+        @media (min-width:800px) {
+            float: left;
+            width: 50%;
+            display: block;
+            font-size: 0;
+        }
+    }
+
+
+    .mce-btn {
+        float: left;
+        width: 11.1111111%;
+        text-align: center;
+        background: none;
+
+        &.mce-active, &.mce-active:hover {
+            background: rgba(0,0,0,.1);
+        }
+
+
+        button {
+            display: block;
+            width: 100%;
+            height: 2.75rem;
+            position: relative;
+            color: #fff;
+        }
+
+        .mce-ico {
+            color: #fff;
+        }
+
+        .mce-open {
+            position: absolute;
+            top: 0;
+        }
+
+        .mce-preview {
+            display: none;
+        }
+
+        .mce-i-backcolor {
+            border-radius: 100%;
+            width: 1.25rem;
+            height: 1.25rem;
+            line-height: 1.25rem;
+            text-align: center;
+        }
+    }
+
+    .mce-caret {
+        display: none;
+    }
+
+    .mce-btn-heading {
+        .mce-txt {
+            font-weight: 700;
+            font-family: serif;
+        }
+    }
+}
+
+.mce-heading-1,
+.mce-heading-2,
+.mce-heading-3,
+.mce-heading-4,
+.mce-heading-5,
+.mce-heading-6 {
+    .mce-text {
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+}
+
+.mce-heading-1 {
+    .mce-text {
+        font-size: 1.5rem !important;
+    }
+}
+
+.mce-heading-2 {
+    .mce-text {
+        font-size: 1.25rem !important;
+    }
+}
+
+.mce-heading-3 {
+    .mce-text {
+        font-size: 1.125rem !important;
+    }
+}
+
+.mce-heading-4 {
+    .mce-text {
+        font-size: 1rem !important;
+    }
+}
+
+.mce-heading-5 {
+    .mce-text {
+        font-size: .875rem !important;
+    }
+}
+
+.mce-heading-6 {
+    .mce-text {
+        font-size: .75rem !important;
+    }
+}
+
+.tinymce-placeholder {
+    position: absolute;
+    top: .25rem;
+    font-size: 1.25rem;
+    color: #aaa;
+    font-weight: $font-weight-light; 
+}

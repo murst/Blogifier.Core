@@ -1,0 +1,36 @@
+// color
+$color-brand-purple-dark: #532FAC;
+$color-brand-purple-light: #6A3CBC;
+
+$color-brand-gray-dark: #8190af;
+$color-brand-gray-light: #95a3bf;
+$color-brand-gray-lighter: #d0dcee;
+
+$color-brand-white: #fff;
+
+$color-black-5: rgba(0, 0, 0, 0.05);
+$color-black-10: rgba(0, 0, 0, 0.10);
+$color-black-15: rgba(0, 0, 0, 0.15);
+$color-black-20: rgba(0, 0, 0, 0.20);
+$color-black-25: rgba(0, 0, 0, 0.25);
+$color-black-30: rgba(0, 0, 0, 0.30);
+
+// font-family
+$font-family: "Roboto";
+$font-family-base: $font-family, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+
+// font-weight
+$font-weight-thin: 100;
+$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-bold: 700;
+$font-weight-black: 900;
+
+// border-radius
+$radius: 100%;
+$radius-xs: 2px;
+$radius-sm: 3px;
+$radius-md: 5px;
+$radius-lg: 10px;
+$radius-xl: 16px;

@@ -1,39 +1,43 @@
-﻿<div class="admin-content container">
+﻿@{ 
+    string filter = Url.ActionContext.HttpContext.Request.Query["filter"];
+    if(filter == null) { filter = ""; }
+    var checkImg = filter.Contains("filterImages") ? "checked" : "";
+    var checkAtt = filter.Contains("filterAttachments") ? "checked" : "";
+    var checkAll = checkImg == "" && checkAtt == "" ? "checked" : "";
+}
+<div class="admin-content container">
     <div class="admin-toolbar clearfix">
-        <!-- left side -->
         <div id="asset-edit-actions" class="float-left mr-2"></div>
-        <button type="button" class="btn btn-secondary btn-icon"><i class="fa fa-trash"></i></button>
-        <!-- right side -->
+        <button type="button" id="multy-remove" class="btn btn-secondary btn-icon" onclick="return assetController.remove()" title="Delete"><i class="fa fa-trash"></i></button>
         <div class="dropdown admin-toolbar-filter float-right ml-2">
-            <button class="btn btn-secondary dropdown-toggle btn-icon" type="button" id="filtersDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button class="btn btn-secondary dropdown-toggle btn-icon" title="Filter" type="button" id="filtersDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fa fa-filter"></i>
             </button>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="filtersDropdown">
                 <h5>Filter by type:</h5>
                 <label class="custom-control custom-radio d-block">
-                    <input id="filterAll" name="filter" type="radio" class="custom-control-input">
+                    <input id="filterAll" name="filter" type="radio" @checkAll class="custom-control-input">
                     <span class="custom-control-indicator"></span>
                     <span class="custom-control-description">All</span>
                 </label>
                 <label class="custom-control custom-radio d-block">
-                    <input id="filterImages" name="filter" type="radio" class="custom-control-input">
+                    <input id="filterImages" name="filter" type="radio" @checkImg class="custom-control-input">
                     <span class="custom-control-indicator"></span>
                     <span class="custom-control-description">Images</span>
                 </label>
                 <label class="custom-control custom-radio d-block">
-                    <input id="filterAttachments" name="filter" type="radio" class="custom-control-input">
+                    <input id="filterAttachments" name="filter" type="radio" @checkAtt class="custom-control-input">
                     <span class="custom-control-indicator"></span>
                     <span class="custom-control-description">Attachments</span>
                 </label>
             </div>
         </div>
-        <!-- if we don't need the form tag, just turn it to div tag -->
-        <form class="admin-toolbar-search float-right">
+        <form action="~/admin/files" method="get" class="admin-toolbar-search float-right">
             <input type="search" name="search" class="form-control" placeholder="Search..." />
         </form>
     </div>
     <div class="asset-edit" id="assetEdit"></div>
-    <div class="asset-list row" id="assetList"></div>
+    <div class="asset-list admin-list-multicheck row" id="assetList"></div>
     <ul class="pagination-custom"></ul>
     <div style="display:none;">
         <form method="post" name="frmUploadAssets" id="frmUploadAssets" asp-action="Index" asp-controller="Blogifier/Api/Assets/Multiple" enctype="multipart/form-data">
@@ -43,6 +47,6 @@
     </div>
 </div>
 @section Scripts{
-    <script src="~/blogifier/admin/custom/js/assetController.js"></script>
+    <script src="~/blogifier/admin/custom/js/app/assetController.js"></script>
     <script>assetController.loadFileManager()</script>
 }

@@ -1,0 +1,81 @@
+.btn {
+    cursor: pointer;
+    padding: 0 2rem;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    font-weight: $font-weight-medium;
+    font-size: .875rem;
+    text-transform: uppercase;
+
+    &-icon-rounded {
+        width: 2.5rem;
+        padding: 0;
+        border-radius: 100%;
+    }
+}
+
+// btn-group-icon
+.btn-group-icon {
+    .btn {
+        padding: 0;
+        width: 3rem;
+    }
+}
+
+// btn-icon
+.btn-icon {
+    padding: 0;
+    width: 3rem;
+}
+
+// btn-group
+.btn-group {
+    .btn {
+        &:focus, &.focus {
+            box-shadow: none;
+        }
+    }
+}
+
+// btn-primary
+.btn-primary {
+    color: #fff;
+    background-color: $color-brand-purple-dark;
+    border-color: $color-brand-purple-dark;
+
+    &:hover, &:active, &.active {
+        color: #fff;
+        background-color: $color-brand-purple-light;
+        border-color: $color-brand-purple-light;
+    }
+
+    &:focus, &.focus {
+        box-shadow: 0 0 0 3px rgba($color-brand-purple-dark, .25);
+    }
+
+    &.disabled, &:disabled {
+        background-color: $color-brand-purple-dark;
+        border-color: $color-brand-purple-dark;
+    }
+}
+
+.show > .btn-primary.dropdown-toggle {
+    background-color: $color-brand-purple-light;
+    border-color: $color-brand-purple-light;
+}
+
+// btn-link
+.btn-link {
+    color: $color-brand-purple-dark;
+
+
+    &:focus, &:hover {
+        color: $color-brand-purple-light;
+        text-decoration: none;
+    }
+}
+
+// no style
+.btn-unstyled {
+    @include unstyled(button);
+}

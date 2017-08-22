@@ -17,6 +17,8 @@ namespace Blogifier.Core.Data.Models
     {
         public Pager Pager { get; set; }
         public IEnumerable<PostListItem> BlogPosts { get; set; }
+        public List<SelectListItem> StatusFilter { get; set; }
+        public List<SelectListItem> CategoryFilter { get; set; }
     }
 
     public class AdminEditorModel : AdminBaseModel
@@ -30,10 +32,28 @@ namespace Blogifier.Core.Data.Models
 		public IList<SelectListItem> BlogThemes { get; set; }
     }
 
-	public class AdminToolsModel : AdminBaseModel
+    public class AdminSetupModel
+    {
+        [Required]
+        [StringLength(100)]
+        public string AuthorName { get; set; }
+        [Required]
+        [EmailAddress]
+        [StringLength(160)]
+        public string AuthorEmail { get; set; }
+        [Required]
+        [StringLength(160)]
+        public string Title { get; set; }
+        [Required]
+        [StringLength(450)]
+        public string Description { get; set; }
+    }
+
+	public class AdminApplicationModel : AdminBaseModel
 	{
-        public Dictionary<string, string> CustomFields { get; set; }
-	}
+        public IEnumerable<ProfileListItem> Blogs { get; set; }
+        public Pager Pager { get; set; }
+    }
 
     public class RssImportModel
     {
@@ -68,9 +88,10 @@ namespace Blogifier.Core.Data.Models
         public string Description { get; set; }
         public string Content { get; set; }
         public string Image { get; set; }
-        public IEnumerable<SelectListItem> Categories { get; set; }
-        public bool IsPublished { get; set; }
+        public int PostViews { get; set; }
         public DateTime Published { get; set; }
+        public bool IsPublished { get { return Published > DateTime.MinValue ? true : false; } }
+        public IEnumerable<SelectListItem> Categories { get; set; }
     }
 
     public class CategoryItem

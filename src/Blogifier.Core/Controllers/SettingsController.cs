@@ -87,9 +87,18 @@ namespace Blogifier.Core.Controllers
 
         [VerifyProfile]
         [Route("application")]
-        public IActionResult Application()
+        public IActionResult Application(int page = 1)
         {
-            return View(_theme + "Application.cshtml", new AdminBaseModel { Profile = GetProfile() });
+            var pager = new Pager(page);
+            var blogs = _db.Profiles.ProfileList(p => p.Id > 0, pager);
+
+            var model = new AdminApplicationModel
+            {
+                Profile = GetProfile(),
+                Blogs = blogs,
+                Pager = pager
+            };
+            return View(_theme + "Application.cshtml", model);
         }
 
         [Route("profile")]
@@ -209,6 +218,13 @@ namespace Blogifier.Core.Controllers
         public IActionResult Import()
         {
             return View(_theme + "Import.cshtml", new AdminBaseModel { Profile = GetProfile() });
+        }
+
+        [VerifyProfile]
+        [Route("about")]
+        public IActionResult About()
+        {
+            return View(_theme + "About.cshtml", new AdminBaseModel { Profile = GetProfile() });
         }
 
         Profile GetProfile()
