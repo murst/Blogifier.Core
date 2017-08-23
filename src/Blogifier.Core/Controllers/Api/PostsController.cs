@@ -43,6 +43,12 @@ namespace Blogifier.Core.Controllers.Api
                 post = _db.BlogPosts.SingleIncluded(p => p.Profile.IdentityName == User.Identity.Name).Result;
             }
 
+            // its possible that there are no posts
+            if(post == null)
+            {
+                return null;
+            }
+
             var postImg = post.Image == null ? profile.Image : post.Image;
             if (string.IsNullOrEmpty(postImg)) postImg = ApplicationSettings.PostImage;
 

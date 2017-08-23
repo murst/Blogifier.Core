@@ -23,11 +23,18 @@ namespace WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //    options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
-                Configuration.GetConnectionString("DefaultConnection")));
+            // SqlLite
+            //System.Action<DbContextOptionsBuilder> databaseOptions = options => options.UseSqlite(connectionString);
+
+            // SqlServer
+            //System.Action<DbContextOptionsBuilder> databaseOptions = options => options.UseSqlServer(connectionString);
+
+            // PostgreSql
+            System.Action<DbContextOptionsBuilder> databaseOptions = options => options.UseNpgsql(connectionString);
+
+            services.AddDbContext<ApplicationDbContext>(databaseOptions);
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -38,7 +45,7 @@ namespace WebApp
 
             services.AddMvc();
 
-            Blogifier.Core.Configuration.InitServices(services, Configuration);
+            Blogifier.Core.Configuration.InitServices(services, databaseOptions, Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +62,11 @@ namespace WebApp
             }
 
             app.UseStaticFiles();
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor | Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto
+            });
 
             app.UseAuthentication();
 

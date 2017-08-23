@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 
 namespace Blogifier.Core.Common
 {
@@ -17,7 +18,7 @@ namespace Blogifier.Core.Common
         public static string ConnectionString { get; set; } = @"Server=.\SQLEXPRESS;Database=Blogifier;Trusted_Connection=True;";
         public static string BlogStorageFolder { get; set; } = "blogifier/data";
         public static string SupportedStorageFiles { get; set; } = "zip,txt,mp3,mp4,pdf,doc,docx,xls,xlsx,xml";
-        
+
         public static string Title { get; set; } = "Blog Name";
         public static string Description { get; set; } = "Short description of the blog";
         public static int ItemsPerPage { get; set; } = 10;
@@ -28,6 +29,13 @@ namespace Blogifier.Core.Common
         public static string ProfileLogo { get; set; } = "/embedded/lib/img/logo.png";
         public static string ProfileImage { get; set; } = "/embedded/lib/img/cover.png";
         public static string PostImage { get; set; } = "/embedded/lib/img/cover.png";
+
+        #endregion
+
+        #region database
+
+        // this is not set directly from the appsettings.json file. Instead, this is passed from the host appplication to configure the appropriate database
+        public static System.Action<DbContextOptionsBuilder> DatabaseOptions { get; set; } = options => options.UseInMemoryDatabase(Constants.Blogifier);
 
         #endregion
 
