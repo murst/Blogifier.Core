@@ -8,24 +8,15 @@
     var curPost = 0;
 }
 <div class="bf bf-posts">
-
-
     <div class="bf-sidebar">
-
-
         <!-- SIDEBAR HEADER -->
         <div class="bf-sidebar-posts-header">
             <label class="list-select custom-control custom-checkbox">
-                <input class="custom-control-input item-control-multi" type="checkbox" name="selectAll">
+                <input class="custom-control-input item-checkbox" type="checkbox" name="selectAll">
                 <span class="item-control custom-control-indicator"></span>
             </label>
             <label class="list-filter" data-toggle="collapse" href="#sidebarTools" aria-expanded="false" aria-controls="sidebarTools"><i class="fa fa-filter item-control"></i></label>
             <a href="~/admin/editor/0" class="btn btn-light btn-block btn-new">New Post</a>
-            <div class="btn-group btn-group-block btn-group-actions" role="group">
-                <button type="button" class="btn btn-dark" data-toggle="tooltip" onclick="return postsController.removePost()" title="Delete"><i class="fa fa-trash"></i></button>
-                <button type="button" class="btn btn-dark" data-toggle="tooltip" onclick="return postsController.publish()" title="Publish"><i class="fa fa-check"></i></button>
-                <button type="button" class="btn btn-dark" data-toggle="tooltip" onclick="return postsController.unpublish()" title="Unpublish"><i class="fa fa-archive"></i></button>
-            </div>
         </div>
         <!--/SIDEBAR HEADER -->
         <!-- SEARCH & FILTERS -->
@@ -41,7 +32,7 @@
                         @foreach (var cat in Model.CategoryFilter)
                         {
                             var isChecked = cat.Selected ? "checked" : "";
-                                <label class="custom-control custom-checkbox"><input type="checkbox" name="category-filter" value="@cat.Value" @isChecked onclick="submitFilter()" class="custom-control-input chk"><span class="custom-control-indicator"></span><span class="custom-control-description">@cat.Text</span></label>
+                            <label class="custom-control custom-checkbox"><input type="checkbox" name="category-filter" value="@cat.Value" @isChecked onclick="submitFilter()" class="custom-control-input chk"><span class="custom-control-indicator"></span><span class="custom-control-description">@cat.Text</span></label>
                         }
                     </div>
                 </div>
@@ -56,13 +47,20 @@
         </div>
         <!--/SEARCH & FILTERS -->
         <!-- POST LIST -->
+        <div class="btn-group-actions">
+            <div class="d-flex">
+                <button type="button" class="btn-unstyled" data-toggle="tooltip" onclick="return postsController.removePost()" title="Delete"><i class="fa fa-trash"></i></button>
+                <button type="button" class="btn-unstyled" data-toggle="tooltip" onclick="return postsController.publish()" title="Publish"><i class="fa fa-check"></i></button>
+                <button type="button" class="btn-unstyled" data-toggle="tooltip" onclick="return postsController.unpublish()" title="Unpublish"><i class="fa fa-archive"></i></button>
+            </div>
+        </div>
         <ul class="bf-sidebar-posts-list" aria-label="posts">
             @foreach (var item in Model.BlogPosts)
             {
                 var published = item.Published == DateTime.MinValue ? "DRAFT" : item.Published.ToString("MMM dd, yyyy");
                 if (curPost == 0) { curPost = item.BlogPostId; }
                 <li class="item">
-                    <label class="item-select custom-control custom-checkbox"><input type="checkbox" id="@item.BlogPostId" class="custom-control-input item-control-multi"><span class="item-control custom-control-indicator"></span></label>
+                    <label class="item-select custom-control custom-checkbox"><input type="checkbox" id="@item.BlogPostId" class="item-checkbox custom-control-input"><span class="item-control custom-control-indicator"></span></label>
                     <a class="item-link item-link-desktop" href="#" onclick="return postsController.showPost('@item.BlogPostId')">@item.Title</a>
                     <a class="item-link item-link-mobile" href="~/admin/editor/@item.BlogPostId">@item.Title</a>
                     <div class="hide">
@@ -76,26 +74,20 @@
         <!-- PAGINATION -->
         @if (pgr.ShowNewer || pgr.ShowOlder)
         {
-            <ul class="pagination-custom" aria-label="Post navigation">
+            <div class="bf-sidebar-pagination">
                 @if (pgr.ShowOlder)
                 {
-                    <li><a href="~/admin/@pgr.Older" aria-label="Older posts"><i class="fa fa-long-arrow-left"></i></a></li>
+                    <a href="~/admin/@pgr.Older"><i class="fa fa-angle-left"></i> Older Posts <span>(@cntFrom-@cntTo out of @pgr.Total)</span></a>
                 }
-                <li><a class="item-count">@cntFrom-@cntTo out of @pgr.Total</a></li>
                 @if (pgr.ShowNewer)
                 {
-                    <li><a href="~/admin/@pgr.Newer" aria-label="Newer posts"><i class="fa fa-long-arrow-right"></i></a></li>
+                    <a href="~/admin/@pgr.Newer"><i class="fa fa-angle-right"></i>Newer post <span>(@cntFrom-@cntTo out of @pgr.Total)</span></a>
                 }
-            </ul>
+            </div>
         }
         <!--/PAGINATION -->
-
-
     </div>
-
-
     <div class="bf-content bf-content-posts">
-
         <!-- PREVIEW POST (This section will change for each post) -->
         <div class="bf-content-post-cover" style="background-image:url(/embedded/lib/img/cover.png);">
             <div class="bf-content-post-cover-body">
@@ -110,18 +102,14 @@
                     <button type="button" id="btnPublish" class="btn btn-outline-secondary" onclick="postsController.publish()" title="Publish"><i class="fa fa-check"></i></button>
                     <button type="button" id="btnUnpublish" class="btn btn-outline-secondary" onclick="postsController.unpublish()" title="Unpublish"><i class="fa fa-archive"></i></button>
                 </div>
-                <button class="btn btn-outline-secondary btn-icon-rounded float-right" data-toggle="modal" data-target="#modalFilePicker" onclick="" title="Change the cover"><i class="fa fa-photo"></i></button>
+                <button class="btn btn-outline-secondary btn-icon-rounded float-right" data-toggle="modal" data-target="#fileManager" onclick="" title="Change the cover"><i class="fa fa-photo"></i></button>
             </div>
         </div>
         <div class="bf-content-post-text"></div>
         <!--/PREVIEW POST-->
-
     </div>
-
-
 </div>
-
-@Html.Partial("~/Views/Blogifier/Admin/Custom/_Shared/_FilePicker.cshtml")
+@Html.Partial("~/Views/Blogifier/Admin/Custom/_Shared/_FileManager.cshtml")
 @section Scripts{
     <script src="~/blogifier/admin/custom/js/app/postsController.js"></script>
     <script>

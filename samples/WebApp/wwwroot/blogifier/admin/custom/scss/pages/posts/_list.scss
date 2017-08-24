@@ -1,11 +1,32 @@
+.btn-group-actions {
+    display: none;
+
+    button {
+        flex: 1;
+        background: $cl-black-20;
+        color: #fff;
+        line-height: 3rem;
+        border-right: 1px solid $cl-black-10;
+        cursor: pointer;
+
+        &:last-child {
+            border-right: 0;
+        }
+
+        &:hover {
+            background: $cl-black-25;
+        }
+    }
+}
 
 .bf-sidebar-posts-list {
+
     li {
-        border-bottom: 1px solid $color-black-5;
+        border-bottom: 1px solid $cl-black-5;
         position: relative;
 
         &:first-child {
-            border-top: 1px solid $color-black-5;
+            border-top: 1px solid $cl-black-5;
         }
 
         .item-select {
@@ -28,19 +49,31 @@
         .item-link {
             color: rgba(255, 255, 255, 0.50);
             display: block;
-            padding: 1rem 1rem 1rem 5rem;
+            padding: 1.25rem 2rem 1.25rem 5rem;
             cursor: pointer;
-            line-height: 1.5;
+            line-height: 1.25;
+            font-size: 0.9375rem;
+            max-width: 25rem;
+            @include ellipsis;
 
             &.active {
-                background: $color-black-5;
+                background: $cl-black-5;
+                color: #fff;
+
+                &:hover {
+                    color: #fff;
+                }
+            }
+
+            &:focus {
+                outline: none;
                 color: #fff;
             }
         }
 
         &:hover {
             .item-link {
-                color: #fff;
+                color: rgba(255, 255, 255, 0.75);
             }
         }
     }
@@ -59,6 +92,60 @@
             .item-link-desktop {
                 display: none;
             }
+        }
+    }
+}
+
+
+.bf-sidebar-pagination {
+    border-bottom: 1px solid $cl-black-5;
+    position: relative;
+
+    a {
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.50);
+        display: block;
+        padding: 1.25rem 2rem 1.25rem 5rem;
+        cursor: pointer;
+        line-height: 1.25;
+        font-size: 0.875rem;
+
+        &:focus {
+            outline: none;
+            color: #fff;
+        }
+
+        span {
+            font-size: .75rem;
+            position: relative;
+            top: -1px;
+        }
+
+        &:hover {
+            color: #fff;
+
+            i {
+                color: #fff;
+            }
+        }
+    }
+
+    i {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 4.75rem;
+        height: 100%;
+        display: block;
+        color: $cl-black-40;
+
+        &:before {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            font-size: 1.5rem;
+            margin-top: -.0625rem;
         }
     }
 }
