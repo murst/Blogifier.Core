@@ -67,15 +67,15 @@
     function showPostCallback(data) {
         curSlug = data.slug;
         var cats = '';
-        if (data.categories.length > 0) {
+        if (data.categories && data.categories.length > 0) {
             for (i = 0; i < data.categories.length; i++) {
                 cats = cats + data.categories[i].text + ', ';
             }
             cats = cats.substring(0, cats.length - 2);
         }
-        $('#post-tagline').html(getDate(data.published) + " / " + cats + " / " + data.postViews + " views");
-        $('#post-title').html(data.title);
-        $('.bf-content-post-text').html(data.content);
+        $('.bf-posts-preview .item-meta').html(getDate(data.published) + " / " + cats + " / " + data.postViews + " views");
+        $('.bf-posts-preview .item-title').html(data.title);
+        $('.bf-posts-preview .item-body').html(data.content);
         if (data.isPublished) {
             $('#btnUnpublish').show();
             $('#btnPublish').hide();
@@ -83,6 +83,12 @@
         else {
             $('#btnUnpublish').hide();
             $('#btnPublish').show();
+        }
+
+        // highlight codes on the posts
+        var prismClass = $('.bf-posts-preview .item-body [class*="language-"]');
+        if (prismClass.length) {
+            Prism.highlightAll();
         }
     }
 
@@ -120,15 +126,14 @@
     }
 }(DataService);
 
-$('.bf-sidebar-posts-list li a').click(function () {
-    $('.bf-sidebar-posts-list a').removeClass('active');
+$('.bf-posts-list .item-link-desktop').click(function () {
+    $('.bf-posts-list .item-link-desktop').removeClass('active');
     $(this).addClass('active');
 });
 
-
 var itemCheck = $('.item-checkbox');
 var firstItemCheck = itemCheck.first();
-var btnAction = '.btn-group-actions';
+var btnAction = '#postsMultiactions';
 var sidebarTools = '#sidebarTools';
 
 // check all
@@ -143,18 +148,19 @@ $(itemCheck).not(firstItemCheck).on('change', function () {
     }
 });
 
+// show multi action buttons when any item checked
 $(document).on('change', itemCheck, function () {
     if ($(itemCheck).is(':checked')) {
-        $(btnAction).slideDown();
+        $(btnAction).stop(true, true).slideDown();
         // hide filters
         $(sidebarTools).collapse('hide');
     } else {
-        $(btnAction).slideUp();
+        $(btnAction).stop(true, true).slideUp();
     }
 });
 
 // uncheck all when filters is active
 $(sidebarTools).on('show.bs.collapse', function () {
     $(itemCheck).prop('checked', false);
-    $(btnAction).slideUp();
+    $(btnAction).stop(true, true).slideUp();
 })

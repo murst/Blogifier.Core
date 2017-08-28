@@ -35,13 +35,12 @@ namespace Blogifier.Core.Controllers.Api
         [HttpGet("post/{id:int}")]
         public PostEditModel GetById(int id)
         {
+            if (id < 1)
+                return new PostEditModel();
+
             var profile = GetProfile();
 
             var post = _db.BlogPosts.SingleIncluded(p => p.Id == id).Result;
-            if (id < 1)
-            {
-                post = _db.BlogPosts.SingleIncluded(p => p.Profile.IdentityName == User.Identity.Name).Result;
-            }
 
             // its possible that there are no posts
             if(post == null)

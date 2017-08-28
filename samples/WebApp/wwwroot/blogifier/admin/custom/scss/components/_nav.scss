@@ -6,11 +6,13 @@
     @include noselect;
     height: 2.75rem;
 
-    .bf-nav-toggle {
+    .dropdown-toggle {
         @include unstyled(button);
         width: 2.75rem;
         height: 2.75rem;
         cursor: pointer;
+        background: $cl-bf;
+        @include border-radius($radius);
 
         img {
             display: block;
@@ -20,88 +22,8 @@
         }
     }
 
-    .bf-nav-content {
-        background-color: $cl-bf;
-        width: 16rem;
-
-        .bf-nav-cover {
-            padding: 5rem 1rem 1rem;
-            color: #fff;
-            background-color: #111;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            position: relative;
-
-
-            h2 {
-                font-size: 1rem;
-                margin-bottom: .25rem;
-            }
-
-            p {
-                font-size: .75rem;
-                opacity: .75;
-            }
-
-            h2, p {
-                position: relative;
-                z-index: 2;
-            }
-
-            &::after {
-                display: block;
-                content: "";
-                background: -moz-linear-gradient(top, transparent 0%, #000 100%);
-                background: -webkit-linear-gradient(top, transparent 0%, #000 100%);
-                background: linear-gradient(to bottom, transparent 0%, #000 100%);
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-            }
-        }
-
-        ul {
-            display: flex;
-        }
-
-        li {
-            flex: 1;
-            border-right: 1px solid $cl-black-10;
-
-            &:last-child {
-                border: 0;
-            }
-        }
-
-        a {
-            text-align: center;
-            display: block;
-            color: rgba(255, 255, 255, 0.75);
-            cursor: pointer;
-            font-size: .875rem;
-            line-height: 3rem;
-
-            &:hover {
-                background-color: $cl-black-10;
-                color: #fff;
-
-                img {
-                    opacity: 1;
-                }
-            }
-        }
-
-        img {
-            width: .75rem;
-            opacity: .75;
-        }
-
-        i {
-            display: block;
-            line-height: 3rem;
-        }
+    .dropdown-menu {
+        width: 12rem;
+        margin-top:.25rem;
     }
 }
